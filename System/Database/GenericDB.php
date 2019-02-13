@@ -1,10 +1,12 @@
 <?php
 namespace Evie\Rest\System\Database;
 
+use Evie\Rest\System\Record\Condition\Condition;
 use Evie\Rest\System\Column\Reflection\ReflectedColumn;
 use Evie\Rest\System\Column\Reflection\ReflectedTable;
 use Evie\Rest\System\Middleware\Communication\VariableStore;
 use Evie\Rest\System\Record\Condition\AndCondition;
+use Evie\Rest\System\Record\Condition\ColumnCondition;
 
 class GenericDB {
 
@@ -225,24 +227,19 @@ class GenericDB {
         return $stmt->rowCount();
     }
 
-    public function deleteSingle(ReflectedTable $table = null, array $columnValues = [], $id = null)  {
-        if (count($columnValues) == 0) {
-            return 0;
-        }
-        $this->_converter->convertColumnValues($table, $columnValues);
-        $updateColumns  = $this->_columns->getIncrement($table, $columnValues);
+    public function deleteSingle(ReflectedTable $table = null,$id = null)  {
         $tableName      = $table->getName();
         $condition      = new ColumnCondition($table->getPk(), 'eq', $id);
         $condition      = $this->_addAuthorizationCondition($condition);
-        $parameters     = array_values($columnValues);
+        $parameters     = array();
         $whereClause    = $this->_conditions->getWhereClause($condition, $parameters);
-        $sql            = 'UPDATE "' . $tableName . '" SET ' . $updateColumns . $whereClause;
-        $stmt           = $this->query($sql, $parameters);
+        $sql = 'DELETE FROM "' . $tableName . '" ' . $whereClause;
+        $stmt = $this->query($sql, $parameters);
         return $stmt->rowCount();
     }
 
     public function query($sql = null, array $parameters = []) {
-        $stmt = $this->pdo->prepare($sql);
+        $stmt = $this->_pdo->prepare($sql);
         $stmt->execute($parameters);
         return $stmt;
     }

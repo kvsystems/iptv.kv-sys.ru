@@ -22,13 +22,17 @@ class RecordController  {
         $this->_responder = $responder;
     }
 
-    public function toList(Request $request = null) {
+    public function _list(Request $request = null) {
         $table = $request->getPathSegment(2);
         $params = $request->getParams();
+        $pos = strripos($table, '?');
+        if($pos)    {
+            $table = explode('?', $table)[0];
+        }
         if (!$this->_service->exists($table)) {
             return $this->_responder->error(ErrorCode::TABLE_NOT_FOUND, $table);
         }
-        return $this->_responder->success($this->service->_list($table, $params));
+        return $this->_responder->success($this->_service->toList($table, $params));
     }
 
     public function read(Request $request = null)  {
@@ -112,6 +116,7 @@ class RecordController  {
             return $this->_responder->error(ErrorCode::TABLE_NOT_FOUND, $table);
         }
         $ids = explode(',', $id);
+
         if (count($ids) > 1) {
             $result = array();
             for ($i = 0; $i < count($ids); $i++) {

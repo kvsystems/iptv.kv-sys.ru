@@ -27,7 +27,7 @@ class FilterInfo    {
         for ($n = ord('0'); $n <= ord('9'); $n++) {
             $this->_addConditionFromFilterPath($conditions, [chr($n)], $table, $params);
             for ($l = ord('a'); $l <= ord('f'); $l++) {
-                $this->addConditionFromFilterPath($conditions, [chr($n), chr($l)], $table, $params);
+                $this->_addConditionFromFilterPath($conditions, [chr($n), chr($l)], $table, $params);
             }
         }
         return $conditions;
@@ -41,7 +41,7 @@ class FilterInfo    {
             $orConditions[] = $this->_combinePathTreeOfConditions($tree->get($p));
         }
         $or = OrCondition::fromArray($orConditions);
-        return $and->_and($or);
+        return $and->thisAnd($or);
     }
 
     public function getCombinedConditions(ReflectedTable $table = null, array $params = []) {

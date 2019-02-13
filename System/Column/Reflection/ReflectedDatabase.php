@@ -13,7 +13,7 @@ class ReflectedDatabase implements \JsonSerializable    {
         $this->_name = $name;
         $this->_tableNames = [];
         foreach ($tableNames as $tableName) {
-            $this->tableNames[$tableName] = true;
+            $this->_tableNames[$tableName] = true;
         }
     }
 
@@ -40,7 +40,7 @@ class ReflectedDatabase implements \JsonSerializable    {
         return $this->_name;
     }
 
-    public function exists(String $tableName)   {
+    public function exists($tableName = null)   {
         return isset($this->_tableNames[$tableName]);
     }
 
@@ -48,7 +48,7 @@ class ReflectedDatabase implements \JsonSerializable    {
         return array_keys($this->_tableNames);
     }
 
-    public function removeTable(String $tableName)  {
+    public function removeTable($tableName = null)  {
         if (!isset($this->_tableNames[$tableName])) {
             return false;
         }

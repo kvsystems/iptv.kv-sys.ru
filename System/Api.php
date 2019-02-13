@@ -11,6 +11,7 @@ use Evie\Rest\System\Controller\RecordController;
 use Evie\Rest\System\Controller\Responder;
 use Evie\Rest\System\Database\GenericDB;
 use Evie\Rest\System\Middleware\AuthorizationMiddleware;
+use Evie\Rest\System\Middleware\BasicAuthMiddleware;
 use Evie\Rest\System\Middleware\CorsMiddleware;
 use Evie\Rest\System\Middleware\FirewallMiddleware;
 use Evie\Rest\System\Middleware\Router\SimpleRouter;
@@ -65,13 +66,13 @@ class Api {
                     new BasicAuthMiddleware($router, $responder, $properties);
                     break;
                 case self::VALIDATION_MIDDLEWARE:
-                    new ValidationMiddleware($router, $responder, $properties, $reflection);
+                    new ValidationMiddleware($router, $responder, $properties);
                     break;
                 case self::SANITATION_MIDDLEWARE:
-                    new SanitationMiddleware($router, $responder, $properties, $reflection);
+                    new SanitationMiddleware($router, $responder, $properties);
                     break;
                 case self::AUTHORIZATION_MIDDLEWARE:
-                    new AuthorizationMiddleware($router, $responder, $properties, $reflection);
+                    new AuthorizationMiddleware($router, $responder, $properties);
                     break;
             }
         }
@@ -122,7 +123,7 @@ class Api {
             }
             $response = $this->_responder->error(ErrorCode::ERROR_NOT_FOUND, $e->getMessage());
             if ($this->_debug) {
-                $response->_addHeader('X-Debug-Info', 'Exception in ' . $e->getFile() . ' on line ' . $e->getLine());
+                $response->addHeader('X-Debug-Info', 'Exception in ' . $e->getFile() . ' on line ' . $e->getLine());
             }
         }
         return $response;

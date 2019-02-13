@@ -23,7 +23,7 @@ abstract class Middleware implements IHandler   {
     }
 
     protected function getProperty($key = null, $default = null)   {
-        return isset($this->properties[$key]) ? $this->properties[$key] : $default;
+        return isset($this->properties[$key]) ? $this->_properties[$key] : $default;
     }
 
 }

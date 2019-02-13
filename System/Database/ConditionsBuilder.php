@@ -20,19 +20,19 @@ class ConditionsBuilder {
 
     private function _getConditionSql(Condition $condition, array &$arguments)   {
         if ($condition instanceof AndCondition) {
-            return $this->getAndConditionSql($condition, $arguments);
+            return $this->_getAndConditionSql($condition, $arguments);
         }
         if ($condition instanceof OrCondition) {
-            return $this->getOrConditionSql($condition, $arguments);
+            return $this->_getOrConditionSql($condition, $arguments);
         }
         if ($condition instanceof NotCondition) {
-            return $this->getNotConditionSql($condition, $arguments);
+            return $this->_getNotConditionSql($condition, $arguments);
         }
         if ($condition instanceof ColumnCondition) {
-            return $this->getColumnConditionSql($condition, $arguments);
+            return $this->_getColumnConditionSql($condition, $arguments);
         }
         if ($condition instanceof SpatialCondition) {
-            return $this->getSpatialConditionSql($condition, $arguments);
+            return $this->_getSpatialConditionSql($condition, $arguments);
         }
         throw new \Exception('Unknown Condition: ' . get_class($condition));
     }

@@ -49,7 +49,7 @@ class PathTree implements \JsonSerializable {
     public function match(array $path = []) {
         $star = self::WILDCARD;
         $tree = &$this->_tree;
-        foreach ($path as $key) {
+        foreach (array_filter($path) as $key) {
             if (isset($tree->branches->$key)) {
                 $tree = &$tree->branches->$key;
             } else if (isset($tree->branches->$star)) {
@@ -58,6 +58,7 @@ class PathTree implements \JsonSerializable {
                 return [];
             }
         }
+
         return $tree->values;
     }
 

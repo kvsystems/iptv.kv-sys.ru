@@ -88,7 +88,7 @@ class Request {
         return $this->_path;
     }
 
-    public function getSegment($part = null)    {
+    public function getPathSegment($part = null)    {
         return $part < 0 || $part >= count($this->_segments)
             ? '' : $this->_segments[$part];
     }

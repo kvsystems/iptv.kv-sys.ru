@@ -60,7 +60,7 @@ class RecordService {
         $table = $this->_reflection->getTable($tableName);
         $this->_joiner->addMandatoryColumns($table, $params);
         $columnNames = $this->_columns->getNames($table, true, $params);
-        $record = $this->_db->selectSingle($table, $columnNames, $id);
+        $record = $this->_db->getSingle($table, $columnNames, $id);
         if ($record == null) {
             return null;
         }
@@ -76,7 +76,7 @@ class RecordService {
         return $this->_db->updateSingle($table, $columnValues, $id);
     }
 
-    public function delete($tableName = null, $id = null)   {
+    public function delete($tableName = null, $id = null, array $params = [])   {
         $table = $this->_reflection->getTable($tableName);
         return $this->_db->deleteSingle($table, $id);
     }

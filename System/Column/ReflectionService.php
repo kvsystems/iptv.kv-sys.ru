@@ -62,7 +62,7 @@ class ReflectionService {
         if (!isset($this->_tables[$tableName])) {
             $this->_tables[$tableName] = $this->_loadTable($tableName, true);
         }
-        return $this->tables[$tableName];
+        return $this->_tables[$tableName];
     }
 
     public function getTableNames() {
@@ -73,13 +73,13 @@ class ReflectionService {
         return $this->_database->getName();
     }
 
-    public function removeTable(String $tableName)  {
+    public function removeTable($tableName = null)  {
         unset($this->_tables[$tableName]);
         return $this->_database->removeTable($tableName);
     }
 
-    public function removeColumn(String $tableName, String $columnName) {
-        return $this->_getTable($tableName)->removeColumn($columnName);
+    public function removeColumn($tableName = null, $columnName = null) {
+        return $this->getTable($tableName)->removeColumn($columnName);
     }
 
 }

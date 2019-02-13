@@ -59,7 +59,7 @@ class RelationJoiner    {
 
             if ($belongsTo) {
                 $fkValues = $this->_getFkEmptyValues($t1, $t2, $records);
-                $this->addFkRecords($t2, $fkValues, $params, $db, $newRecords);
+                $this->_addFkRecords($t2, $fkValues, $params, $db, $newRecords);
             }
             if ($hasMany) {
                 $pkValues = $this->_getPkEmptyValues($t1, $records);
